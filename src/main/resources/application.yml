@@ -1,0 +1,12 @@
+spring:
+  elasticsearch:
+    uris: localhost:9200
+    password: j5ZK-7JiJY_7*rxXY*Bt
+    username: elastic
+
+#    restclient:
+#
+logging:
+  level:
+    com.fabiankevin: TRACE
+
