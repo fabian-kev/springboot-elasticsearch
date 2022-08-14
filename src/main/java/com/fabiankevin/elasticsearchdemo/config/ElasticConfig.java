@@ -1,27 +1,24 @@
 package com.fabiankevin.elasticsearchdemo.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
-import org.springframework.data.elasticsearch.client.reactive.ReactiveElasticsearchClient;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
-import org.springframework.data.elasticsearch.config.AbstractReactiveElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.http.HttpHeaders;
 
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
-import java.io.*;
-import java.security.*;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -66,9 +63,8 @@ public class ElasticConfig extends AbstractElasticsearchConfiguration {
     }
 
     private SSLContext sslContext() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-//        File crtFile = new File("http_ca.crt");
-        ClassPathResource classPathResource = new ClassPathResource("http_ca.crt");
-        Certificate certificate = CertificateFactory.getInstance("X.509").generateCertificate(classPathResource.getInputStream());
+        Resource resource = new ClassPathResource("http_ca.crt");
+        Certificate certificate = CertificateFactory.getInstance("X.509").generateCertificate(resource.getInputStream());
         KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         keyStore.load(null, null);
         keyStore.setCertificateEntry("http_ca", certificate);

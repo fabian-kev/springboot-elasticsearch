@@ -4,6 +4,7 @@ import com.fabiankevin.elasticsearchdemo.document.Person;
 import com.fabiankevin.elasticsearchdemo.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,5 +25,10 @@ public class PersonController {
 
         log.trace("Getting person by id={}", personId);
         return personService.findById(personId);
+    }
+
+    @GetMapping
+    public Page<Person> getListOfPersons(){
+        return personService.getPageablePerson();
     }
 }

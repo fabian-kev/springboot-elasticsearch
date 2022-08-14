@@ -3,6 +3,8 @@ package com.fabiankevin.elasticsearchdemo.service;
 import com.fabiankevin.elasticsearchdemo.document.Person;
 import com.fabiankevin.elasticsearchdemo.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,5 +21,9 @@ public class PersonService {
     public Person findById(UUID id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(String.format("Person with id=%s does not exist", id)));
+    }
+
+    public Page<Person> getPageablePerson(){
+        return personRepository.findAll(Pageable.unpaged());
     }
 }
